@@ -12,6 +12,10 @@ var User = require('./app/models/models');
 // configure app to use bodyParser()
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/public/'));
+
+// set the view engine to ejs
+app.set('view engine', 'ejs');
 
 var port = process.env.PORT || 8080;
 
@@ -31,7 +35,6 @@ router.get('/', function (req, res) {
 });
 
 router.route('/users')
-
     // create a user
     .post(function (req, res) {
         var user = new User(); // creates a new instance of the User model
@@ -44,12 +47,31 @@ router.route('/users')
             }
             res.json({ message: 'User created' });
         });
-    })
-
-    .get(function (req, res) {
-        res.json({ message: 'getting bear page' });
     });
 
+router.route('/index')
+    // load the index page
+    .get(function (req, res) {
+        res.render('pages/index');
+    });
+
+router.route('/create')
+    // load the create page
+    .get(function (req, res) {
+        res.render('pages/create');
+    });
+
+router.route('/vote/register')
+    // load the first vote page
+    .get(function (req, res) {
+        res.render('pages/register');
+    });
+
+router.route('vote/submit')
+    // load the second vote page
+    .get(function (req, res) {
+        res.render('pages/submit');
+    });
 // Register the routes
 // all routes will be prefixed with /api
 app.use('/api', router);
