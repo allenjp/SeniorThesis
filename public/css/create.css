@@ -1,0 +1,31 @@
+@font-face {
+    font-family: rosario;
+    src: url(fonts/rosario/Rosario-Regular.ttf);
+}
+
+body, html {
+    background-color: #262626;
+    height: 100%;
+    width: 90%;
+    margin: 0;
+    padding: 2% 4%;
+    font-family: rosario;
+    color: #C0C0C0;
+}
+
+.ballot {
+    border: 2px solid #C0C0C0;
+    padding-left: 10px;
+    width: 45%;
+    float: left;
+}
+
+.added-ballots {
+    width: 45%;
+    float: right;
+}
+
+/*
+.bf-main-sub {
+    display: none;
+}*/

@@ -1,1 +1,106 @@
-<h1>Create</h1>
+<!-- Don't need title for person ballot -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Faculty Voting</title>
+
+    <!-- Bootstrap -->
+    <link href="/css/create.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<!-- Start body -->
+<body ng-app="createApp" ng-controller="CreateCtrl">
+    <div class="main">
+        <div class="main-header">
+            <h1>Create a new election</h1>
+        </div>
+        <div class="election">
+            
+            <!-- Start election form -->
+            <form name="electionForm" ng-submit="submitElection()" class="election-form">
+                <label class="elec-label">Title:</label>
+                <input ng-model="electionData.title" class="election-title" type="text">
+                <br>
+                
+                <label ng-model="electionData.school" class="elec-label">School:</label>
+                <select>
+                    <option value="business">Business</option>
+                    <option value="english">English</option>
+                    <option value="science">Science</option>
+                </select>
+                <br>
+                
+                <label ng-model="electionData.faculty" class="elec-label">Faculty:</label>
+                <select>
+                    <option value="full-time">Full time</option>
+                    <option value="part-time">Part time</option>
+                    <option value="residents">Residents</option>
+                </select>
+                <br>
+            </form>
+            <!-- End election form -->
+        </div>
+        
+        <!-- Start ballot -->
+        <div class="ballot">
+            <div class="ballot-main">
+                <h2>Select ballot type: </h2>
+                <input name="type" type="radio" value="person" ng-click="resetForm()">Person
+                <input name="type" type="radio" value="yn" ng-click="resetForm()">Yes/No
+                <br><br>
+                
+                <!-- Start ballot form -->
+                <form name="ballotForm" ng-submit="addBallot()" class="ballot-form" id="bf1">
+                    <div class="bf-main">
+                        <div class="bf-main-sub" id="bf-main-yn" ng-show="ballotType == 'yn'">
+                            <label class="bf-label">Title:</label>
+                            <input class="bf-input" type="text">
+                            <br>
+                            <label class="bf-label">Description:</label><br>
+                            <textarea name="desc" rows="5" cols="35"></textarea>
+                        </div>
+                        <div class="bf-main-sub" id="bf-main-person" ng-show="ballotType == 'person'">
+                            <br>
+                            <label class="bf-label">Position:</label>
+                            <input class="bf-input" type="text">
+                            <br>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">Add this ballot</button>
+                </form>
+                <!-- End ballot form -->
+            </div>
+        </div>
+        <!-- End ballot -->
+        
+        <!-- Start added ballot div -->
+        <div class="added-ballots">
+            <h2>Currently added ballots (hover to view)</h2>
+            <h2 data-ng-repeat="ballot in addedBallots">{{ballot.title}}</h2>
+        </div>
+        <button type="submit" class="btn-submit" ng-click="submitElection()">Done adding ballots</button>
+        <!-- End added ballots -->
+        
+    </div>
+    <!-- Angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/app.js"></script>
+</body>
+<!-- End body -->
+
+</html>

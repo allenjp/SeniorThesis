@@ -1,4 +1,6 @@
-// TODO: Salt the votingUser in the VoteSchema
+/* TODO: Salt the votingUser in the VoteSchema
+* Make ballot schema.  These are the pieces that make up the election
+*/
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
@@ -17,7 +19,8 @@ var Schema = mongoose.Schema;
 var UserSchema = new Schema({
     "fname": String,
     "lname": String,
-    "dept": String
+    "school": String,
+    "emp-status": String
 });
 
 /*
@@ -29,16 +32,40 @@ var UserSchema = new Schema({
 * Each document holds:
 *
 * name of the election (string)
-* department (string)
 * position to be voted on (string)
-* list of users able to vote in this election (user ID's)
+* list of elegible schools (strings),
+* list of eligble statuses (strings)
 */
 var ElectionSchema = new Schema({
-    "name": String,
-    "dept": String,
-    "position": String,
-    "ableToVoteIn": [{ type: Schema.Types.ObjectId, ref: 'User' }]
+    "title": String,
+    "school": String,
+    "faculty": String,
+    "ballots": [{
+        "desc": String,
+        "position": String,
+        "votes": [{type: Schema.Types.ObjectId, ref: 'Vote'}]
+    }]
 });
+
+/*
+* BALLOT SCHEMA
+*
+* This schema holds all of the ballots
+* These are the pieces of the elections
+*
+*
+* Each document holds:
+*
+* The electionID the ballot applies to
+* The votes that correspond to this ballot
+*/
+
+//var BallotSchema = new Schema({
+//    "desc": String,
+//    "position": String,
+//    "election": {type: Schema.Types.ObjectId, ref: 'Election' },
+//    "votes": [{type: Schema.Types.ObjectId, ref: 'Vote'}]
+//});
 
 /*
 * VOTE SCHEMA
@@ -47,14 +74,15 @@ var ElectionSchema = new Schema({
 * 
 * Each document holds:
 *
-* The electionID the vote applies to (election ID)
+* The ballotID the vote applies to (ballot ID)
 * The ID of the user who cast the vote (User ID)
 * The ID of the user the vote is cast for (User ID)
 */
 var VoteSchema = new Schema({
-    "election": [{ type: Schema.Types.ObjectId, ref: 'Election' }],
-    "votingUser": [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    "votedFor": [{ type: Schema.Types.ObjectId, ref: 'User' }]
+    "ballot": { type: Schema.Types.ObjectId, ref: 'Ballot' },
+    "votingUser": { type: Schema.Types.ObjectId, ref: 'User' },
+    "votedForUser": [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    "votedForYesNo": Boolean
 });
 
 /*
@@ -79,5 +107,6 @@ var CodeSchema = new Schema({
 var User = mongoose.model('User', UserSchema);
 var Election = mongoose.model('Election', ElectionSchema);
 var Vote = mongoose.model('Vote', VoteSchema);
+var Code = mongoose.model('Code', CodeSchema);
 
 module.exports = mongoose.model('User', UserSchema);

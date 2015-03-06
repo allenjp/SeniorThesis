@@ -1,3 +1,11 @@
+/*
+* TODOS:
+* mockups of pages (balsamiq)
+* visual data models
+* task schedule
+* sequence diagram (https://www.websequencediagrams.com/#)
+*/
+
 // BASE SETUP
 var express = require('express');
 var app = express();
@@ -7,11 +15,12 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://root:Woky669.@ds053668.mongolab.com:53668/main');
 
-var User = require('./app/models/models');
+var Ballot = require('./app/models/models');
 
 // configure app to use bodyParser()
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(express.static(__dirname + '/public/'));
 
 // set the view engine to ejs
@@ -59,6 +68,10 @@ router.route('/create')
     // load the create page
     .get(function (req, res) {
         res.render('pages/create');
+    })
+
+    .post(function (req, res) {
+    
     });
 
 router.route('/vote/register')
@@ -72,6 +85,7 @@ router.route('vote/submit')
     .get(function (req, res) {
         res.render('pages/submit');
     });
+        
 // Register the routes
 // all routes will be prefixed with /api
 app.use('/api', router);
