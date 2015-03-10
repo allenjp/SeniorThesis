@@ -43,21 +43,6 @@ router.get('/', function (req, res) {
     res.json({ message: 'welcome to our api' });
 });
 
-router.route('/users')
-    // create a user
-    .post(function (req, res) {
-        var user = new User(); // creates a new instance of the User model
-        user.fname = req.body.fname;
-    
-        // save the user and check for errors
-        user.save(function (err) {
-            if (err) {
-                res.send(err);
-            }
-            res.json({ message: 'User created' });
-        });
-    });
-
 router.route('/index')
     // load the index page
     .get(function (req, res) {
@@ -71,16 +56,16 @@ router.route('/create')
     })
 
     .post(function (req, res) {
-    
+        console.log('received post');
     });
 
-router.route('/vote/register')
+router.route('/register')
     // load the first vote page
     .get(function (req, res) {
         res.render('pages/register');
     });
 
-router.route('vote/submit')
+router.route('/submit')
     // load the second vote page
     .get(function (req, res) {
         res.render('pages/submit');

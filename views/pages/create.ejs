@@ -10,6 +10,7 @@
     <title>Faculty Voting</title>
 
     <!-- Bootstrap -->
+    <link href="/lib/bootstrap.min.css" rel="stylesheet">
     <link href="/css/create.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -22,79 +23,65 @@
 
 <!-- Start body -->
 <body ng-app="createApp" ng-controller="CreateCtrl">
-    <div class="main">
-        <div class="main-header">
-            <h1>Create a new election</h1>
-        </div>
-        <div class="election">
-            
-            <!-- Start election form -->
-            <form name="electionForm" ng-submit="submitElection()" class="election-form">
-                <label class="elec-label">Title:</label>
-                <input ng-model="electionData.title" class="election-title" type="text">
-                <br>
-                
-                <label ng-model="electionData.school" class="elec-label">School:</label>
-                <select>
-                    <option value="business">Business</option>
-                    <option value="english">English</option>
-                    <option value="science">Science</option>
-                </select>
-                <br>
-                
-                <label ng-model="electionData.faculty" class="elec-label">Faculty:</label>
-                <select>
-                    <option value="full-time">Full time</option>
-                    <option value="part-time">Part time</option>
-                    <option value="residents">Residents</option>
-                </select>
-                <br>
-            </form>
-            <!-- End election form -->
-        </div>
-        
-        <!-- Start ballot -->
-        <div class="ballot">
-            <div class="ballot-main">
-                <h2>Select ballot type: </h2>
-                <input name="type" type="radio" value="person" ng-click="resetForm()">Person
-                <input name="type" type="radio" value="yn" ng-click="resetForm()">Yes/No
-                <br><br>
-                
-                <!-- Start ballot form -->
-                <form name="ballotForm" ng-submit="addBallot()" class="ballot-form" id="bf1">
-                    <div class="bf-main">
-                        <div class="bf-main-sub" id="bf-main-yn" ng-show="ballotType == 'yn'">
-                            <label class="bf-label">Title:</label>
-                            <input class="bf-input" type="text">
-                            <br>
-                            <label class="bf-label">Description:</label><br>
-                            <textarea name="desc" rows="5" cols="35"></textarea>
-                        </div>
-                        <div class="bf-main-sub" id="bf-main-person" ng-show="ballotType == 'person'">
-                            <br>
-                            <label class="bf-label">Position:</label>
-                            <input class="bf-input" type="text">
-                            <br>
-                        </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>Create a new election</h1>
+                <form id="elecForm">
+                    <div class="form-group">
+                        <label for="elecTitle1">Title: </label>
+                        <input ng-model="electionData.title" type="text" class="form-control" id="elecTitle1" name="eTitle">
                     </div>
-                    <button type="submit" class="btn-submit">Add this ballot</button>
+                    <div class="form-group">
+                        <label for="elecSchool1">School: </label>
+                        <select ng-model="electionData.school" class="form-control" name="elecSchool" id="elecSchool1">
+                            <option value="business">Business</option>
+                            <option value="english">English</option>
+                            <option value="science">Science</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="elecFac1">Faculty: </label>
+                        <select ng-model="electionData.faculty" class="form-control" name="elecFac" id="elecFac1">
+                            <option value="fullTime">Full-Time</option>
+                            <option value="partTime">Part-Time</option>
+                            <option value="residents">Residents</option>
+                        </select>
+                    </div>
                 </form>
-                <!-- End ballot form -->
+            </div>
+            <div class="col-sm-6">
+                <h2>Add a ballot: </h2>
+                <form ng-submit="processBallot()" name="ballotForm">
+                    <label class="radio-inline">
+                        <input ng-model="ballotData.type" type="radio" name="ballotType" value="yn" ng-click="resetForm()">
+                        Yes/No
+                    </label>
+                    <label class="radio-inline">
+                        <input ng-model="ballotData.type" type="radio" name="ballotType" value="person" ng-click="resetForm()">
+                        Person
+                    </label>
+                    <div class="form-group" id="form-group-yn" ng-show="ballotData.type == 'yn'">
+                        <label for="ynTitle1">Title: </label>
+                        <input ng-model="ballotData.title" class="form-control" id="ynTitle1" type="text" name="ynTitle">
+                    </div>
+                    <div class="form-group" id="form-group-person" ng-show="ballotData.type == 'person'">
+                        <label for="personPos1">Position: </label>
+                        <input ng-model="ballotData.position" class="form-control" id="personPos1" type="text" name="personPos">
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Add this Ballot</button>
+                </form>
+            </div>
+            <div class="col-sm-6">
+                <h2>Added ballots: </h2>
+                <div id="ballotHolder">
+                </div>
+                <button type="button" ng-click="submitElection()" class="btn btn-primary">Submit Election</button>
             </div>
         </div>
-        <!-- End ballot -->
-        
-        <!-- Start added ballot div -->
-        <div class="added-ballots">
-            <h2>Currently added ballots (hover to view)</h2>
-            <h2 data-ng-repeat="ballot in addedBallots">{{ballot.title}}</h2>
-        </div>
-        <button type="submit" class="btn-submit" ng-click="submitElection()">Done adding ballots</button>
-        <!-- End added ballots -->
-        
     </div>
-    <!-- Angular -->
+    <!-- Angular & jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

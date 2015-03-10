@@ -41,7 +41,8 @@ var ElectionSchema = new Schema({
     "school": String,
     "faculty": String,
     "ballots": [{
-        "desc": String,
+        "type": String,
+        "title": String,
         "position": String,
         "votes": [{type: Schema.Types.ObjectId, ref: 'Vote'}]
     }]
