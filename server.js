@@ -16,11 +16,17 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://root:Woky669.@ds053668.mongolab.com:53668/main');
 
 var Ballot = require('./app/models/models');
+var Election = require('./app/models/models');
 
 // configure app to use bodyParser()
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+app.use(bodyParser.json({
+    type: 'application/vnd.api+json'
+}));
+
 app.use(express.static(__dirname + '/public/'));
 
 // set the view engine to ejs
@@ -56,7 +62,18 @@ router.route('/create')
     })
 
     .post(function (req, res) {
-        console.log('received post');
+        Election.create({
+            title : req.body.title,
+            school : req.body.school,
+            faculty : req.body.faculty,
+            ballots : req.body.ballots        
+        }, function (err, elections) {  
+            if (err) {
+                res.send(err);
+            }
+            
+            res.json(elections);
+        });
     });
 
 router.route('/register')

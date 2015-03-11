@@ -41,7 +41,7 @@ var ElectionSchema = new Schema({
     "school": String,
     "faculty": String,
     "ballots": [{
-        "type": String,
+        "type": { type: String },
         "title": String,
         "position": String,
         "votes": [{type: Schema.Types.ObjectId, ref: 'Vote'}]
@@ -110,4 +110,4 @@ var Election = mongoose.model('Election', ElectionSchema);
 var Vote = mongoose.model('Vote', VoteSchema);
 var Code = mongoose.model('Code', CodeSchema);
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('Election', ElectionSchema);

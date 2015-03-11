@@ -42,9 +42,12 @@ app.controller('CreateCtrl', ['$scope', '$http', function ($scope, $http, $docum
     // Election apps
     
     $scope.submitElection = function () {
+        
+        $scope.electionData.ballots = JSON.stringify(addedBallots);
+        
         $http.post('/api/create', $scope.electionData).
             success(function (data, status, headers, config) {
-                console.log('post successful');
+                console.log(data);
             }).
             error(function (data, status, headers, config) {
                 console.log(status);
