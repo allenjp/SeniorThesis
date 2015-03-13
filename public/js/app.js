@@ -1,4 +1,4 @@
-
+/*jslint plusplus: true */
 
 var app = angular.module('createApp', []);
 
@@ -43,7 +43,22 @@ app.controller('CreateCtrl', ['$scope', '$http', function ($scope, $http, $docum
     
     $scope.submitElection = function () {
         
-        $scope.electionData.ballots = JSON.stringify(addedBallots);
+        console.log(addedBallots);
+        
+        $scope.electionData.ballots = [];
+        
+        var i;
+        for (i = 0; i < addedBallots.length; i++) {
+            
+            $scope.electionData.ballots.push({
+                "type": addedBallots[i].type,
+                "position": addedBallots[i].position,
+                "title": addedBallots[i].title
+            });
+        }
+        
+        console.log($scope.electionData);
+        
         
         $http.post('/api/create', $scope.electionData).
             success(function (data, status, headers, config) {
@@ -52,5 +67,6 @@ app.controller('CreateCtrl', ['$scope', '$http', function ($scope, $http, $docum
             error(function (data, status, headers, config) {
                 console.log(status);
             });
+        
     };
 }]);
