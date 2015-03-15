@@ -1,3 +1,7 @@
 #ballotHolder {
     font-size: 16px;
 }
+
+.btn-circle {
+  border-radius: 48%;
+}

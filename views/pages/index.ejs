@@ -7,7 +7,7 @@
     <title>Faculty Voting</title>
 
     <!-- Bootstrap -->
-    <link href="/lib/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
       
     <!-- My styles -->
     <link href="/css/index.css" rel="stylesheet">
@@ -32,9 +32,11 @@
                           <label for="userPw">Password</label>
                           <input type="password" class="form-control" id="userPw">
                       </div>
-                      <button type="submit" class="btn btn-default">Sign in</button>
+                      <button type="submit" class="btn btn-default">Log in</button>
+                      <a href="/api/signup"><button type="button" class="btn btn-default">Sign up</button></a>
                   </form>
-              </div>
+              </div> <!-- end header-->
+              
               <div class="main">
                   <h1>Faculty Voting Application</h1>
                   <a href="/api/create">
@@ -47,7 +49,7 @@
                           <h3>Vote in an existing election</h3>
                       </div>
                   </a>  
-              </div>
+              </div> <!-- end main-->
           </div>
       </div>
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

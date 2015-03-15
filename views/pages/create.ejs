@@ -10,7 +10,7 @@
     <title>Faculty Voting</title>
 
     <!-- Bootstrap -->
-    <link href="/lib/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link href="/css/create.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -54,11 +54,11 @@
                 <h2>Add a ballot: </h2>
                 <form ng-submit="processBallot()" name="ballotForm">
                     <label class="radio-inline">
-                        <input ng-model="ballotData.type" type="radio" name="ballotType" value="yn" ng-click="resetForm()">
+                        <input ng-model="ballotData.type" type="radio" name="ballotType" value="yn" ng-click="clearForm()">
                         Yes/No
                     </label>
                     <label class="radio-inline">
-                        <input ng-model="ballotData.type" type="radio" name="ballotType" value="person" ng-click="resetForm()">
+                        <input ng-model="ballotData.type" type="radio" name="ballotType" value="person" ng-click="clearForm()">
                         Person
                     </label>
                     <div class="form-group" id="form-group-yn" ng-show="ballotData.type == 'yn'">
@@ -76,6 +76,19 @@
             <div class="col-sm-6">
                 <h2>Added ballots: </h2>
                 <div id="ballotHolder">
+                    <div ng-repeat="ballot in addedBallots">
+                        <span>{{ballot.title}}</span>
+                        <span>{{ballot.position}}</span>
+                        
+                        <button type="button" data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-warning btn-circle">
+                            <i class="glyphicon glyphicon-pencil"></i>
+                        </button>
+                        
+                        <button type="button" data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger btn-circle">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </button>
+                        
+                    </div>
                 </div>
                 <button type="button" ng-click="submitElection()" class="btn btn-primary">Submit Election</button>
             </div>
@@ -87,6 +100,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/js/app.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
 </body>
 <!-- End body -->
 

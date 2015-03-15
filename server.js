@@ -10,6 +10,12 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var expressSession = require('express-session');
+var flash = require('connect-flash');
+
+// Routes for API
+var router = express.Router();
 
 // mongoose setup & database connection
 var mongoose = require('mongoose');
@@ -20,7 +26,7 @@ var Election = require('./app/models/models');
 
 // configure app to use bodyParser()
 app.use(bodyParser.urlencoded({
-  extended: true
+    extended: true
 }));
 
 app.use(bodyParser.json({
@@ -32,10 +38,12 @@ app.use(express.static(__dirname + '/public/'));
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
-var port = process.env.PORT || 8080;
+//coniguring passport
+app.use(expressSession({secret: 'mySecretKey'}));
+app.use(passport.initialize());
+app.use(passport.session());
 
-// Routes for API
-var router = express.Router();
+var port = process.env.PORT || 8080;
 
 // middleware to use for all requests
 router.use(function (req, res, next) {
@@ -55,6 +63,30 @@ router.route('/index')
         res.render('pages/index');
     });
 
+router.route('/login', function (req, res) {
+    
+    // render the page and pass in any flash data if it exists
+    res.render('login.ejs', { message: req.flash('loginMessage') });
+});
+
+router.route('/signup')
+    
+    // render the page and pass in any flash data if it exists
+    .get(function (req, res) {
+        res.render('/signup.ejs', { message: req.flash('signupMessage') });
+    });
+
+router.route('/profile', isLoggedIn, function (req, res) {
+    res.render('profile.ejs', {
+        user : req.user
+    });
+});
+
+router.route('/logout', function (req, res) {
+    req.logout();
+    res.redirect('/index');
+});
+
 router.route('/create')
     // load the create page
     .get(function (req, res) {
@@ -66,8 +98,8 @@ router.route('/create')
             title : req.body.title,
             school : req.body.school,
             faculty : req.body.faculty,
-            ballots : req.body.ballots        
-        }, function (err, elections) {  
+            ballots : req.body.ballots
+        }, function (err, elections) {
             if (err) {
                 res.send(err);
             }
@@ -87,6 +119,15 @@ router.route('/submit')
     .get(function (req, res) {
         res.render('pages/submit');
     });
+
+function isLoggedIn(req, res, next) {
+    
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    
+    res.redirect('/index');
+}
         
 // Register the routes
 // all routes will be prefixed with /api

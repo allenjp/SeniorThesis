@@ -19,8 +19,10 @@ var Schema = mongoose.Schema;
 var UserSchema = new Schema({
     "fname": String,
     "lname": String,
+    "email": String,
+    "password": String,
     "school": String,
-    "emp-status": String
+    "empStatus": String
 });
 
 /*

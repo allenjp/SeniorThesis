@@ -1,7 +1,9 @@
 /*jslint plusplus: true */
 
+
 var app = angular.module('createApp', []);
 
+// Controller for create page
 app.controller('CreateCtrl', ['$scope', '$http', function ($scope, $http, $document) {
     
     $scope.clearFields = function () {
@@ -17,23 +19,23 @@ app.controller('CreateCtrl', ['$scope', '$http', function ($scope, $http, $docum
     $scope.ballotData = {};
     $scope.electionData = {};
     
-    var addedBallots = [];
+    $scope.addedBallots = [];
     
     // function used to only append relavant info to list of ballots
-    function appendBallot() {
-        if (typeof ($scope.ballotData.title) !== "undefined") {
-            $('#ballotHolder').append("<li>" + $scope.ballotData.title + "</li>");
-        } else {
-            $('#ballotHolder').append("<li>" + $scope.ballotData.position + "</li>");
-        }
-    }
+//    function appendBallot() {
+//        if (typeof ($scope.ballotData.title) !== "undefined") {
+//            $('#ballotHolder').append("<li>" + $scope.ballotData.title + "</li>");
+//        } else {
+//            $('#ballotHolder').append("<li>" + $scope.ballotData.position + "</li>");
+//        }
+//    }
     
     $scope.processBallot = function () {
         // push the current ballot to the addedBallots array
-        addedBallots.push($scope.ballotData);
+        $scope.addedBallots.push($scope.ballotData);
         
         // append the relevant information to the added ballots div
-        appendBallot();
+        // appendBallot();
         
         //reset the form to its pristine state
         $scope.resetForm();
@@ -43,17 +45,17 @@ app.controller('CreateCtrl', ['$scope', '$http', function ($scope, $http, $docum
     
     $scope.submitElection = function () {
         
-        console.log(addedBallots);
+        console.log($scope.addedBallots);
         
         $scope.electionData.ballots = [];
         
         var i;
-        for (i = 0; i < addedBallots.length; i++) {
+        for (i = 0; i < $scope.addedBallots.length; i++) {
             
             $scope.electionData.ballots.push({
-                "type": addedBallots[i].type,
-                "position": addedBallots[i].position,
-                "title": addedBallots[i].title
+                "type": $scope.addedBallots[i].type,
+                "position": $scope.addedBallots[i].position,
+                "title": $scope.addedBallots[i].title
             });
         }
         
@@ -70,3 +72,8 @@ app.controller('CreateCtrl', ['$scope', '$http', function ($scope, $http, $docum
         
     };
 }]);
+
+// Global jQuery functions
+$(document).ready(function () {
+    $('.tooltip').tooltip();
+});
