@@ -3,6 +3,7 @@
 */
 
 var mongoose = require('mongoose');
+var bcrypt = require('bcrypt-nodejs');
 var Schema = mongoose.Schema;
 
 /*
@@ -107,9 +108,21 @@ var CodeSchema = new Schema({
     "expires": Date
 });
 
+// Methods for user authentication:
+// generating a hash
+userSchema.methods.generateHash = function (password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+// checking if password is valid
+userSchema.methods.validPassword = function (password) {
+    return bcrypt.compareSync(password, this.local.password);
+};
+
 var User = mongoose.model('User', UserSchema);
 var Election = mongoose.model('Election', ElectionSchema);
 var Vote = mongoose.model('Vote', VoteSchema);
 var Code = mongoose.model('Code', CodeSchema);
 
+module.exports = mongoose.model('User', UserSchema);
 module.exports = mongoose.model('Election', ElectionSchema);

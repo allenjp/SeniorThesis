@@ -11,8 +11,9 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var passport = require('passport');
-var expressSession = require('express-session');
+var session = require('express-session');
 var flash = require('connect-flash');
+var cookieParser = require('cookie-parser');
 
 // Routes for API
 var router = express.Router();
@@ -23,6 +24,17 @@ mongoose.connect('mongodb://root:Woky669.@ds053668.mongolab.com:53668/main');
 
 var Ballot = require('./app/models/models');
 var Election = require('./app/models/models');
+
+// set up the application
+app.use(cookieParser()); // read cookies (needed for auth)
+
+app.set('view engine', 'ejs'); // set up ejs for templating
+
+// required for passport
+app.use(session({ secret: 'mySecretKey' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
 
 // configure app to use bodyParser()
 app.use(bodyParser.urlencoded({
@@ -37,11 +49,6 @@ app.use(express.static(__dirname + '/public/'));
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
-
-//coniguring passport
-app.use(expressSession({secret: 'mySecretKey'}));
-app.use(passport.initialize());
-app.use(passport.session());
 
 var port = process.env.PORT || 8080;
 
@@ -63,17 +70,18 @@ router.route('/index')
         res.render('pages/index');
     });
 
-router.route('/login', function (req, res) {
+router.route('/login')
     
     // render the page and pass in any flash data if it exists
-    res.render('login.ejs', { message: req.flash('loginMessage') });
-});
+    .get(function (req, res) {
+        res.render('pages/login.ejs', { message: req.flash('loginMessage') });
+    });
 
 router.route('/signup')
     
     // render the page and pass in any flash data if it exists
     .get(function (req, res) {
-        res.render('/signup.ejs', { message: req.flash('signupMessage') });
+        res.render('pages/signup.ejs', { message: req.flash('signupMessage') });
     });
 
 router.route('/profile', isLoggedIn, function (req, res) {
