@@ -22,6 +22,14 @@
 
     <!-- LOGIN FORM -->
     <form action="/signup" method="post">
+        <div class="form-group col-md-6">
+            <label>First name</label>
+            <input type="text" class="form-control" name="fname">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Last name</label>
+            <input type="text" class="form-control" name="lname">
+        </div>
         <div class="form-group">
             <label>Email</label>
             <input type="text" class="form-control" name="email">
@@ -29,6 +37,21 @@
         <div class="form-group">
             <label>Password</label>
             <input type="password" class="form-control" name="password">
+        </div>
+        <div class="form-group">
+            <label>School</label>
+            <select class="form-control" name="school">
+                <option value="business">Business</option>
+                <option value="science">Science</option>
+                <option value="teaching">Teaching</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Employee Status</label>
+            <select class="form-control" name="empStatus">
+                <option value="resident">Resident</option>
+                <option value="partTime">Part-Time</option>
+            </select>
         </div>
 
         <button type="submit" class="btn btn-warning btn-lg">Signup</button>

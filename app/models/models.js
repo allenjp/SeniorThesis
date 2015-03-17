@@ -20,10 +20,12 @@ var Schema = mongoose.Schema;
 var UserSchema = new Schema({
     "fname": String,
     "lname": String,
-    "email": String,
-    "password": String,
     "school": String,
-    "empStatus": String
+    "empStatus": String,
+    local            : {
+        email        : String,
+        password     : String
+    }
 });
 
 /*
@@ -110,19 +112,19 @@ var CodeSchema = new Schema({
 
 // Methods for user authentication:
 // generating a hash
-userSchema.methods.generateHash = function (password) {
+UserSchema.methods.generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
 // checking if password is valid
-userSchema.methods.validPassword = function (password) {
+UserSchema.methods.validPassword = function (password) {
     return bcrypt.compareSync(password, this.local.password);
 };
 
-var User = mongoose.model('User', UserSchema);
-var Election = mongoose.model('Election', ElectionSchema);
-var Vote = mongoose.model('Vote', VoteSchema);
-var Code = mongoose.model('Code', CodeSchema);
+//var User = mongoose.model('User', UserSchema);
+//var Election = mongoose.model('Election', ElectionSchema);
+//var Vote = mongoose.model('Vote', VoteSchema);
+//var Code = mongoose.model('Code', CodeSchema);
 
 module.exports = mongoose.model('User', UserSchema);
-module.exports = mongoose.model('Election', ElectionSchema);
+//module.exports = mongoose.model('Election', ElectionSchema);
